@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textSize="20sp"
-            android:textColor="@color/mpsdk_white"
+            android:textColor="@color/white"
             android:text="Flavor 1" />
     </FrameLayout>
 
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textSize="20sp"
-            android:textColor="@color/mpsdk_white"
+            android:textColor="@color/white"
             android:text="Flavor 2" />
     </FrameLayout>
 
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textSize="20sp"
-            android:textColor="@color/mpsdk_white"
+            android:textColor="@color/white"
             android:text="Flavor 3" />
     </FrameLayout>
 

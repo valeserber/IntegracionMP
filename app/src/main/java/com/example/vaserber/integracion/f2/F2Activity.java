@@ -163,9 +163,6 @@ public class F2Activity extends AppCompatActivity {
     }
 
     public void getPayerCosts() {
-        Log.d("lala", mBin);
-        Log.d("lala", String.valueOf(mIssuer.getId()));
-        Log.d("lala", String.valueOf(mPaymentMethod.getPaymentTypeId()));
 
         new MercadoPago.Builder()
                 .setContext(this)
@@ -174,13 +171,14 @@ public class F2Activity extends AppCompatActivity {
                 .getInstallments(mBin,
                         BigDecimal.valueOf(100),
                         mIssuer.getId(),
-                        mPaymentMethod.getPaymentTypeId(),
+                        mPaymentMethod.getId(),
                         new Callback<List<Installment>>() {
                             @Override
                             public void success(List<Installment> installments, Response response) {
 
                                 if ((installments.size() > 0)
                                         && (installments.get(0).getPayerCosts().size() > 0)) {
+                                    //unico plan de cuotas para ese banco y ese metodo de pago
                                     mPayerCosts = installments.get(0).getPayerCosts();
                                     startInstallmentsActivity();
                                 }
@@ -188,10 +186,7 @@ public class F2Activity extends AppCompatActivity {
 
                             @Override
                             public void failure(RetrofitError error) {
-                                Log.d("lala", error.getMessage());
-                                Log.d("lala", error.getResponse().getReason());
-                                //                        mExceptionOnMethod = "getInstallmentsAsync";
-//                                ApiUtil.finishWithApiException(getParent(), error);
+                                ApiUtil.finishWithApiException(getParent(), error);
                             }
                         });
     }
