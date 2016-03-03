@@ -56,30 +56,59 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == F3_REQUEST) {
-            if(resultCode == Activity.RESULT_OK){
+        if (requestCode == F2_REQUEST) {
 
-                Integer installments = (data.getStringExtra("installments") != null)
-                        ? Integer.parseInt(data.getStringExtra("installments")) : null;
+            onF2Result(resultCode, data);
 
-                String token = data.getStringExtra("token");
+        } else if (requestCode == F3_REQUEST) {
 
-                PaymentMethod paymentMethod = JsonUtil.getInstance()
-                        .fromJson(data.getStringExtra("paymentMethod"), PaymentMethod.class);
+            onF3Result(resultCode, data);
 
-                String issuer;
-                if (paymentMethod.isIssuerRequired()) {
-                    Long issuerId = (data.getStringExtra("issuerId") != null)
-                            ? Long.parseLong(data.getStringExtra("issuerId")) : null;
-                    issuer = String.valueOf(issuerId);
-                } else {
-                    issuer = "not required";
-                }
-
-                Toast.makeText(getApplicationContext(),
-                        "Issuer: " + issuer + ", Installments: " + String.valueOf(installments) +
-                        ", Token: " + token, Toast.LENGTH_LONG).show();
-            }
         }
     }
+
+    private void onF2Result(int resultCode, Intent data) {
+        if(resultCode == Activity.RESULT_OK) {
+            String paymentMethod = data.getStringExtra("payment_method");
+            Long issuerId = data.getLongExtra("issuer", -1);
+            String cardNumber = data.getStringExtra("card_token");
+            Integer installments = data.getIntExtra("payer_cost", -1);
+
+            Toast.makeText(getApplicationContext(),
+                    "Payment Method: " + paymentMethod +
+                    ", Issuer: " + (issuerId != null ? String.valueOf(issuerId) : "not required") +
+                    ", Card number: " + cardNumber + ", Installments: " + String.valueOf(installments)
+                    , Toast.LENGTH_LONG).show();
+
+
+        }
+    }
+
+    private void onF3Result(int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+
+            Integer installments = (data.getStringExtra("installments") != null)
+                    ? Integer.parseInt(data.getStringExtra("installments")) : null;
+
+            String token = data.getStringExtra("token");
+
+            PaymentMethod paymentMethod = JsonUtil.getInstance()
+                    .fromJson(data.getStringExtra("paymentMethod"), PaymentMethod.class);
+
+            String issuer;
+            if (paymentMethod.isIssuerRequired()) {
+                Long issuerId = (data.getStringExtra("issuerId") != null)
+                        ? Long.parseLong(data.getStringExtra("issuerId")) : null;
+                issuer = String.valueOf(issuerId);
+            } else {
+                issuer = "not required";
+            }
+
+            Toast.makeText(getApplicationContext(),
+                    "Issuer: " + issuer + ", Installments: " + String.valueOf(installments) +
+                            ", Token: " + token, Toast.LENGTH_LONG).show();
+        }
+    }
+
+
 }

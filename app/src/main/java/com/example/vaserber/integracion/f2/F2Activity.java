@@ -1,6 +1,7 @@
 package com.example.vaserber.integracion.f2;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +34,7 @@ public class F2Activity extends AppCompatActivity {
     private CardToken mCardToken;
     private List<PayerCost> mPayerCosts;
     private String mBin;
+    private PayerCost mSelectedPayerCost;
 
 
     protected List<String> supportedPaymentTypes = new ArrayList<String>(){{
@@ -57,6 +59,16 @@ public class F2Activity extends AppCompatActivity {
         }
     }
 
+    public void pay() {
+        Intent intent = new Intent();
+        intent.putExtra("payment_method", mPaymentMethod.getName());
+        intent.putExtra("issuer", mIssuer.getId());
+        intent.putExtra("card_token", mCardToken.getCardNumber());
+        intent.putExtra("payer_cost", mSelectedPayerCost.getInstallments());
+        setResult(Activity.RESULT_OK, intent);
+        finish();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -72,6 +84,11 @@ public class F2Activity extends AppCompatActivity {
         } else if (requestCode == MercadoPago.NEW_CARD_REQUEST_CODE) {
 
             onNewCardResult(resultCode, data);
+
+        } else if (requestCode == MercadoPago.INSTALLMENTS_REQUEST_CODE) {
+
+            onInstallmentsResult(resultCode, data);
+
         }
     }
 
@@ -131,6 +148,23 @@ public class F2Activity extends AppCompatActivity {
         }
     }
 
+    public void onInstallmentsResult(int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+
+            mSelectedPayerCost = JsonUtil.getInstance()
+                    .fromJson(data.getStringExtra("payerCost"), PayerCost.class);
+
+            pay();
+
+        } else {
+
+            if ((data != null) && (data.getStringExtra("apiException") != null)) {
+                showErrorToast(data);
+            }
+        }
+    }
+
+
     public void startPaymentMethodsActivity() {
         new MercadoPago.StartActivityBuilder()
                 .setActivity(this)
@@ -161,6 +195,7 @@ public class F2Activity extends AppCompatActivity {
                 .setPayerCosts(mPayerCosts)
                 .startInstallmentsActivity();
     }
+
 
     public void getPayerCosts() {
 

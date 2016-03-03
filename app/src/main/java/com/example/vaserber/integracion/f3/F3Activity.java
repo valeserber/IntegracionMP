@@ -8,7 +8,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.vaserber.integracion.IntegracionApplication;
-import com.example.vaserber.integracion.R;
 import com.mercadopago.core.MercadoPago;
 
 import java.math.BigDecimal;
