@@ -442,11 +442,12 @@ public class VaultActivity extends AppCompatActivity {
         String bin = getSelectedPMBin();
         BigDecimal amount = mAmount;
         Long issuerId = (mSelectedIssuer != null) ? mSelectedIssuer.getId() : null;
-        String paymentTypeId = mSelectedPaymentMethod.getPaymentTypeId();
+//        String paymentTypeId = mSelectedPaymentMethod.getPaymentTypeId();
+        String paymentMethodId = mSelectedPaymentMethod.getId();
 
         if (bin.length() == MercadoPago.BIN_LENGTH) {
             LayoutUtil.showProgressLayout(mActivity);
-            mMercadoPago.getInstallments(bin, amount, issuerId, paymentTypeId, new Callback<List<Installment>>() {
+            mMercadoPago.getInstallments(bin, amount, issuerId, paymentMethodId, new Callback<List<Installment>>() {
                 @Override
                 public void success(List<Installment> installments, Response response) {
 

@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.vaserber.integracion.f2.F2Activity;
 import com.example.vaserber.integracion.f3.F3Activity;
+import com.mercadopago.core.MercadoPago;
 import com.mercadopago.model.PaymentMethod;
 import com.mercadopago.util.JsonUtil;
 
@@ -69,17 +70,20 @@ public class MainActivity extends AppCompatActivity {
 
     private void onF2Result(int resultCode, Intent data) {
         if(resultCode == Activity.RESULT_OK) {
-            String paymentMethod = data.getStringExtra("payment_method");
-            Long issuerId = data.getLongExtra("issuer", -1);
-            String cardNumber = data.getStringExtra("card_token");
-            Integer installments = data.getIntExtra("payer_cost", -1);
 
-            Toast.makeText(getApplicationContext(),
-                    "Payment Method: " + paymentMethod +
-                    ", Issuer: " + (issuerId != null ? String.valueOf(issuerId) : "not required") +
-                    ", Card number: " + cardNumber + ", Installments: " + String.valueOf(installments)
-                    , Toast.LENGTH_LONG).show();
+            String paymentTypeId = data.getStringExtra("payment_type_id");
+            String paymentMethodId = data.getStringExtra("payment_method_id");
+            String issuer;
+            if (data.hasExtra("issuer_id")) {
+                Long issuerId = data.getLongExtra("issuer_id", -1);
+                issuer = String.valueOf(issuerId);
+            } else {
+                issuer = "not required";
+            }
+            Integer installments = data.getIntExtra("installments", -1);
+            String token = data.getStringExtra("token");
 
+            showResults(paymentTypeId, paymentMethodId, issuer, String.valueOf(installments), token);
 
         }
     }
@@ -104,10 +108,19 @@ public class MainActivity extends AppCompatActivity {
                 issuer = "not required";
             }
 
-            Toast.makeText(getApplicationContext(),
-                    "Issuer: " + issuer + ", Installments: " + String.valueOf(installments) +
-                            ", Token: " + token, Toast.LENGTH_LONG).show();
+           showResults(paymentMethod.getPaymentTypeId(), paymentMethod.getId(),
+                   issuer, String.valueOf(installments), token);
         }
+    }
+
+    private void showResults(String paymentTypeId, String paymentMethodId, String issuer,
+                             String installments, String token) {
+        Toast.makeText(getApplicationContext(),
+                "Payment type: " + paymentTypeId +
+                        ", Payment method: " + paymentMethodId +
+                        ", Issuer: " + issuer +
+                        ", Installments: " + installments +
+                        ", Token: " + token, Toast.LENGTH_LONG).show();
     }
 
 

@@ -15,7 +15,9 @@ import com.mercadopago.model.CardToken;
 import com.mercadopago.model.Installment;
 import com.mercadopago.model.Issuer;
 import com.mercadopago.model.PayerCost;
+import com.mercadopago.model.Payment;
 import com.mercadopago.model.PaymentMethod;
+import com.mercadopago.model.Token;
 import com.mercadopago.util.ApiUtil;
 import com.mercadopago.util.JsonUtil;
 
@@ -35,6 +37,7 @@ public class F2Activity extends AppCompatActivity {
     private List<PayerCost> mPayerCosts;
     private String mBin;
     private PayerCost mSelectedPayerCost;
+    private Token mToken;
 
 
     protected List<String> supportedPaymentTypes = new ArrayList<String>(){{
@@ -61,10 +64,14 @@ public class F2Activity extends AppCompatActivity {
 
     public void pay() {
         Intent intent = new Intent();
-        intent.putExtra("payment_method", mPaymentMethod.getName());
-        intent.putExtra("issuer", mIssuer.getId());
-        intent.putExtra("card_token", mCardToken.getCardNumber());
-        intent.putExtra("payer_cost", mSelectedPayerCost.getInstallments());
+        intent.putExtra("payment_type_id", mPaymentMethod.getPaymentTypeId());
+        intent.putExtra("payment_method_id", mPaymentMethod.getId());
+        if (mIssuer != null) {
+            intent.putExtra("issuer_id", mIssuer.getId());
+        }
+        intent.putExtra("installments", mSelectedPayerCost.getInstallments());
+        intent.putExtra("token", mToken.getId());
+
         setResult(Activity.RESULT_OK, intent);
         finish();
     }
@@ -136,7 +143,7 @@ public class F2Activity extends AppCompatActivity {
             mBin = mCardToken.getCardNumber().substring(0, 6);
 
             if (mCardToken.validateSecurityCode()) {
-                getPayerCosts();
+                createTokenAsync();
             }
 
         } else {
@@ -147,6 +154,7 @@ public class F2Activity extends AppCompatActivity {
             }
         }
     }
+
 
     public void onInstallmentsResult(int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
@@ -196,16 +204,35 @@ public class F2Activity extends AppCompatActivity {
                 .startInstallmentsActivity();
     }
 
+    private void createTokenAsync() {
+        MercadoPago mercadoPago = new MercadoPago.Builder()
+                .setPublicKey(IntegracionApplication.DUMMY_MERCHANT_PUBLIC_KEY)
+                .setContext(this)
+                .build();
+
+        mercadoPago.createToken(mCardToken, new Callback<Token>() {
+            @Override
+            public void success(Token token, Response response) {
+                mToken = token;
+                getPayerCosts();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                ApiUtil.finishWithApiException(getParent(), error);
+            }
+        });
+    }
 
     public void getPayerCosts() {
-
+        Long issuerId = (mIssuer != null ? mIssuer.getId() : null);
         new MercadoPago.Builder()
                 .setContext(this)
                 .setPublicKey(IntegracionApplication.DUMMY_MERCHANT_PUBLIC_KEY)
                 .build()
                 .getInstallments(mBin,
                         BigDecimal.valueOf(100),
-                        mIssuer.getId(),
+                        issuerId,
                         mPaymentMethod.getId(),
                         new Callback<List<Installment>>() {
                             @Override
