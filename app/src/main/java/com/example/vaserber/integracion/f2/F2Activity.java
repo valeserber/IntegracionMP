@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Toast;
 
 
@@ -15,7 +14,6 @@ import com.mercadopago.model.CardToken;
 import com.mercadopago.model.Installment;
 import com.mercadopago.model.Issuer;
 import com.mercadopago.model.PayerCost;
-import com.mercadopago.model.Payment;
 import com.mercadopago.model.PaymentMethod;
 import com.mercadopago.model.Token;
 import com.mercadopago.util.ApiUtil;

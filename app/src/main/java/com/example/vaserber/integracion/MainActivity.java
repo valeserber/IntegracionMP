@@ -4,14 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.vaserber.integracion.f2.F2Activity;
 import com.example.vaserber.integracion.f3.F3Activity;
-import com.mercadopago.core.MercadoPago;
 import com.mercadopago.model.PaymentMethod;
 import com.mercadopago.util.JsonUtil;
 
