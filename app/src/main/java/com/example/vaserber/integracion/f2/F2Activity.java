@@ -20,6 +20,7 @@ import com.mercadopago.model.PaymentMethod;
 import com.mercadopago.model.Token;
 import com.mercadopago.util.ApiUtil;
 import com.mercadopago.util.JsonUtil;
+import com.mercadopago.util.MercadoPagoUtil;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -51,9 +52,9 @@ public class F2Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         startPaymentMethodsActivity();
     }
+
 
     public void showErrorToast(Intent data) {
         if ((data != null) && (data.getStringExtra("apiException") != null)) {
@@ -69,8 +70,12 @@ public class F2Activity extends AppCompatActivity {
         if (mIssuer != null) {
             intent.putExtra("issuer_id", mIssuer.getId());
         }
-        intent.putExtra("installments", mSelectedPayerCost.getInstallments());
-        intent.putExtra("token", mToken.getId());
+        if (mSelectedPayerCost != null) {
+            intent.putExtra("installments", mSelectedPayerCost.getInstallments());
+        }
+        if (mToken != null) {
+            intent.putExtra("token", mToken.getId());
+        }
 
         setResult(Activity.RESULT_OK, intent);
         finish();
@@ -105,10 +110,15 @@ public class F2Activity extends AppCompatActivity {
             mPaymentMethod = JsonUtil.getInstance()
                     .fromJson(data.getStringExtra("paymentMethod"), PaymentMethod.class);
 
-            if (mPaymentMethod.isIssuerRequired()) {
-                startIssuersActivity();
+            if(MercadoPagoUtil.isCardPaymentType(mPaymentMethod.getPaymentTypeId())) {
+
+                if (mPaymentMethod.isIssuerRequired()) {
+                    startIssuersActivity();
+                } else {
+                    startNewCardActivity();
+                }
             } else {
-                startNewCardActivity();
+                pay();
             }
 
         } else {

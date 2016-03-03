@@ -80,7 +80,10 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 issuer = "not required";
             }
-            Integer installments = data.getIntExtra("installments", -1);
+            Integer installments = null;
+            if (data.hasExtra("installments")) {
+                installments = data.getIntExtra("installments", -1);
+            }
             String token = data.getStringExtra("token");
 
             showResults(paymentTypeId, paymentMethodId, issuer, String.valueOf(installments), token);

@@ -20,28 +20,29 @@ public class F3Activity extends AppCompatActivity {
         add("credit_card");
         add("debit_card");
         add("prepaid_card");
-//        add("ticket");
-//        add("atm");
+        add("ticket");
+        add("atm");
     }};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        startVaultActivity();
+    }
 
+
+    public void startVaultActivity() {
         new MercadoPago.StartActivityBuilder()
                 .setActivity(this)
                 .setPublicKey(IntegracionApplication.DUMMY_MERCHANT_PUBLIC_KEY)
                 .setAmount(BigDecimal.valueOf(100))
                 .setSupportedPaymentTypes(supportedPaymentTypes)
                 .startVaultActivity();
-
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("lala", "en activity result");
 
         if (requestCode == MercadoPago.VAULT_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
