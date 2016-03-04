@@ -21,6 +21,9 @@
         <activity android:name=".f2.F2Activity">
 
         </activity>
+        <activity android:name=".f1.F1PaymentMethodActivity">
+
+        </activity>
     </application>
 
 </manifest>

@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.example.vaserber.integracion.f1.F1PaymentMethodActivity;
 import com.example.vaserber.integracion.f2.F2Activity;
 import com.example.vaserber.integracion.f3.F3Activity;
 import com.mercadopago.model.PaymentMethod;
@@ -32,6 +33,14 @@ public class MainActivity extends AppCompatActivity {
         f1Button = (FrameLayout) findViewById(R.id.activity_main_f1);
         f2Button = (FrameLayout) findViewById(R.id.activity_main_f2);
         f3Button = (FrameLayout) findViewById(R.id.activity_main_f3);
+
+        f1Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), F1PaymentMethodActivity.class);
+                startActivityForResult(intent, F1_REQUEST);
+            }
+        });
 
         f2Button.setOnClickListener(new View.OnClickListener() {
             @Override
