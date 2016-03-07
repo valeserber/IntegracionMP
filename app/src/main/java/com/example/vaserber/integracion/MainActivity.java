@@ -64,7 +64,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == F2_REQUEST) {
+        if (requestCode == F1_REQUEST) {
+
+            onF1Result(resultCode, data);
+
+        } else if (requestCode == F2_REQUEST) {
 
             onF2Result(resultCode, data);
 
@@ -73,6 +77,10 @@ public class MainActivity extends AppCompatActivity {
             onF3Result(resultCode, data);
 
         }
+    }
+
+    private void onF1Result(int resultCode, Intent data) {
+
     }
 
     private void onF2Result(int resultCode, Intent data) {

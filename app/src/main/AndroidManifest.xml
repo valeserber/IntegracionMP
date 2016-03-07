@@ -24,6 +24,12 @@
         <activity android:name=".f1.F1PaymentMethodActivity">
 
         </activity>
+        <activity android:name=".f1.F1IssuerActivity">
+
+        </activity>
+        <activity android:name=".f1.F1CardFormActivity">
+
+        </activity>
     </application>
 
 </manifest>
