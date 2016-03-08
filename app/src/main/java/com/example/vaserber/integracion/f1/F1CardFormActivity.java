@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vaserber.integracion.IntegracionApplication;
+import com.example.vaserber.integracion.MainActivity;
 import com.example.vaserber.integracion.R;
 import com.mercadopago.core.MercadoPago;
 import com.mercadopago.model.Card;
@@ -60,7 +61,9 @@ public class F1CardFormActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         mPaymentMethodId = intent.getStringExtra("payment_method_id");
-        mIssuerId = intent.getLongExtra("issuer_id", -1);
+        if (intent.hasExtra("issuer_id")) {
+            mIssuerId = intent.getLongExtra("issuer_id", -1);
+        }
         mPaymentMethod = JsonUtil.getInstance().fromJson(
                 this.getIntent().getStringExtra("payment_method"), PaymentMethod.class);
         setLayout();
@@ -147,6 +150,7 @@ public class F1CardFormActivity extends AppCompatActivity {
                 throw new Exception("invalid cardholder name");
             if (!cardToken.validateIdentificationNumber(mIdentificationTypes.get(idTypePosition)))
                 throw new Exception("invalid id type");
+            continueFlow(cardToken);
         } catch(Exception e) {
             showErrorToast(e.getMessage());
         }
@@ -154,6 +158,25 @@ public class F1CardFormActivity extends AppCompatActivity {
 
     public void showErrorToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+    }
+
+    public void continueFlow(CardToken cardToken) {
+        Intent intent = new Intent(getApplicationContext(), F1InstallmentsActivity.class);
+        intent.putExtra("payment_method_id", mPaymentMethodId);
+        if (mIssuerId != null) {
+            intent.putExtra("issuer_id", mIssuerId);
+        }
+        intent.putExtra("payment_method",  JsonUtil.getInstance().toJson(mPaymentMethod));
+        intent.putExtra("card_token", JsonUtil.getInstance().toJson(cardToken));
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivityForResult(intent, MainActivity.F1_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        setResult(resultCode, data);
+        finish();
     }
 
 

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.vaserber.integracion.IntegracionApplication;
+import com.example.vaserber.integracion.MainActivity;
 import com.example.vaserber.integracion.R;
 import com.mercadopago.core.MercadoPago;
 import com.mercadopago.model.Issuer;
@@ -82,6 +83,14 @@ public class F1IssuerActivity extends AppCompatActivity {
         intent.putExtra("payment_method_id", mPaymentMethodId);
         intent.putExtra("issuer_id", issuer.getId());
         intent.putExtra("payment_method",  JsonUtil.getInstance().toJson(mPaymentMethod));
-        startActivity(intent);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivityForResult(intent, MainActivity.F1_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        setResult(resultCode, data);
+        finish();
     }
 }

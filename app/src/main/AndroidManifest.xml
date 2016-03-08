@@ -30,6 +30,9 @@
         <activity android:name=".f1.F1CardFormActivity">
 
         </activity>
+        <activity android:name=".f1.F1InstallmentsActivity">
+
+        </activity>
     </application>
 
 </manifest>

@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onF1Result(int resultCode, Intent data) {
-
+        onF2Result(resultCode, data);
     }
 
     private void onF2Result(int resultCode, Intent data) {
