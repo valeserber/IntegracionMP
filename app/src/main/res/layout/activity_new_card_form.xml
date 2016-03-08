@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="176dp"
+        android:background="@color/mpsdk_color_new_card_form_background">
+
+        <FrameLayout
+            android:layout_width="240dp"
+            android:layout_height="144dp"
+            android:layout_gravity="center">
+            <FrameLayout
+                android:id="@+id/activity_new_card_form_color_card"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/new_card_layout">
+            </FrameLayout>
+            <include layout="@layout/new_card_front"/>
+        </FrameLayout>
+    </FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="94dp"
+        android:orientation="vertical"
+        android:background="@color/mpsdk_white">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:textSize="14sp"
+            android:textColor="@color/mpsdk_color_new_card_text"
+            android:text="@string/mpsdk_card_number_label"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="2dp"/>
+    </LinearLayout>
+</LinearLayout>

@@ -55,4 +55,19 @@
             android:text="Flavor 3" />
     </FrameLayout>
 
+    <FrameLayout
+        android:id="@+id/activity_main_f4"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="20dp"
+        android:background="@color/colorPrimary">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:text="New card" />
+    </FrameLayout>
+
 </LinearLayout>

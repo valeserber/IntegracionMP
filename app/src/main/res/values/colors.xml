@@ -4,4 +4,10 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="white">#FFFFFF</color>
+    <color name="mpsdk_color_new_card_form_background">#5ABEE7</color>
+    <color name="mpsdk_color_new_card_form_neutral">#EEEEEE</color>
+    <color name="mpsdk_color_new_card_text">#999999</color>
+    <color name="mpsdk_color_new_card_image">#DEDEDE</color>
+
+    <color name="transparent">#00000000</color>
 </resources>

@@ -33,6 +33,9 @@
         <activity android:name=".f1.F1InstallmentsActivity">
 
         </activity>
+        <activity android:name=".CardActivity">
+
+        </activity>
     </application>
 
 </manifest>
