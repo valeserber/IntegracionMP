@@ -15,45 +15,45 @@
 
     </FrameLayout>
 
-
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="4dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@color/mpsdk_color_new_card_image">
-
-    </FrameLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:layout_width="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+        <FrameLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="19dp"
-                android:textSize="14sp"
-                android:textColor="@color/mpsdk_color_new_card_text"
-                android:text="Nombre y apellido"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="19dp"
-                android:textSize="14sp"
-                android:textColor="@color/mpsdk_color_new_card_text"
-                android:text="MM/AA"/>
-        </LinearLayout>
-
+            android:layout_gravity="center_horizontal">
+            <include layout="@layout/base_cardholder"/>
+        </FrameLayout>
     </FrameLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="1">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="19dp"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="0.6"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textColor="@color/mpsdk_color_new_card_text"
+            android:text="Nombre y apellido"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="19dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="0.4"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textColor="@color/mpsdk_color_new_card_text"
+            android:text="MM/AA"/>
+    </LinearLayout>
 </LinearLayout>
